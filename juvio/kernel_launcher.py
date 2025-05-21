@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 from juvio.converter import JuvioConverter
+from security import safe_command
 
 
 current_path = os.path.dirname(os.path.abspath(__file__))
@@ -56,8 +57,7 @@ def main():
     if platform.system() == "Windows":
         import subprocess
 
-        proc = subprocess.Popen(
-            cmd(
+        proc = safe_command.run(subprocess.Popen, cmd(
                 python_version=metadata.get("python_version", None),
                 deps=metadata.get("dependencies", []),
             )
